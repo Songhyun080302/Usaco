@@ -1,7 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <set>
-#include <algorithm> // Include this header for remove and count
+#include <unordered_set> // Include this header
+#include <algorithm> 
 
 using namespace std;
 
@@ -14,17 +15,15 @@ int main() {
         cin >> arr[i];
     }
 
-    unordered_set<string> moos;
+    unordered_set<string> moos; // Now this line should compile
 
     for (int i = 0; i < N; ++i) {
         for (int j = i + 1; j < N; ++j) {
             if (arr[i] != arr[j]) {
                 vector<int> temp_arr = arr; 
-                // Correct usage of remove and erase
                 temp_arr.erase(remove(temp_arr.begin(), temp_arr.end(), arr[i]), temp_arr.end());
                 temp_arr.erase(remove(temp_arr.begin(), temp_arr.end(), arr[j]), temp_arr.end());
 
-                // Correct usage of count
                 if (count(temp_arr.begin(), temp_arr.end(), arr[j]) != 2) {
                     continue; 
                 }
