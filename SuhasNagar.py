@@ -1,12 +1,15 @@
 def solve():
-    t = int(input())  
-    for _ in range(t):
+    t = int(input())  # Read number of test cases
+
+    for _ in range(t):  # Corrected indentation
         N, A, B = map(int, input().split())  # Read N, A, and B
-        final_photo = [list(input().strip()) for _ in range(N)] 
+        final_photo = [list(input().strip()) for _ in range(N)]  # Read final photo
+
+        # Initialize the two photos with False (no stars initially)
         first_photo = [[False for _ in range(N)] for _ in range(N)]
         second_photo = [[False for _ in range(N)] for _ in range(N)]
 
-        possible = True  
+        possible = True  # Start assuming it's possible to recreate the photo
 
         for i in range(N):
             for j in range(N):
