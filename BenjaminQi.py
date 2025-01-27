@@ -1,18 +1,13 @@
 def solve():
-    N = int(input())
-    arr = list(map(int, input().split()))  
+    n = int(input())
+    a = list(map(int, input().split()))
     
-    from collections import defaultdic
-    count_map = defaultdict(set) 
-    
-  
-    for i in range(N - 1, 0, -1):
-        if arr[i] == arr[i - 1]: 
-            count_map[arr[i]].add(arr[i - 1])  
-    
-    distinct_moos = set()  
-    for y in count_map:
-        for x in count_map[y]:
-            distinct_moos.add((x, y)) 
-    
-    print(len(distinct_moos))  
+    moos = set()
+    for i in range(n):
+        for j in range(i + 1, n):
+            for k in range(j + 1, n):
+                if a[j] == a[k] and a[i] != a[j]:
+                    moos.add((a[i], a[j], a[k]))
+    print(len(moos))
+
+solve()
