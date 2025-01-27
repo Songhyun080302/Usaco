@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <set>
-#include <unordered_set>
+#include <algorithm> // Include this header for remove and count
 
 using namespace std;
 
@@ -14,26 +14,23 @@ int main() {
         cin >> arr[i];
     }
 
-    // Create a set to store distinct moos
     unordered_set<string> moos;
 
-    // Iterate through the array
     for (int i = 0; i < N; ++i) {
         for (int j = i + 1; j < N; ++j) {
             if (arr[i] != arr[j]) {
-                // Check if a moo can be formed with arr[i], arr[j], and arr[j]
-                bool possible = true;
-                vector<int> temp_arr = arr;
+                vector<int> temp_arr = arr; 
+                // Correct usage of remove and erase
                 temp_arr.erase(remove(temp_arr.begin(), temp_arr.end(), arr[i]), temp_arr.end());
                 temp_arr.erase(remove(temp_arr.begin(), temp_arr.end(), arr[j]), temp_arr.end());
+
+                // Correct usage of count
                 if (count(temp_arr.begin(), temp_arr.end(), arr[j]) != 2) {
-                    possible = false;
+                    continue; 
                 }
-                if (possible) {
-                    // Construct the moo string
-                    string moo = to_string(arr[i]) + " " + to_string(arr[j]) + " " + to_string(arr[j]);
-                    moos.insert(moo);
-                }
+
+                string moo = to_string(arr[i]) + " " + to_string(arr[j]) + " " + to_string(arr[j]);
+                moos.insert(moo);
             }
         }
     }
