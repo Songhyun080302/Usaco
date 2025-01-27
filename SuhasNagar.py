@@ -1,33 +1,40 @@
 def solve():
-    t = int(input())  # Read number of test cases
+    t = int(input())  
 
-    for _ in range(t):  # Corrected indentation
-        N, A, B = map(int, input().split())  # Read N, A, and B
-        final_photo = [list(input().strip()) for _ in range(N)]  # Read final photo
+    for _ in range(t):  
+        N, A, B = map(int, input().split())  
+        final_photo = [list(input().strip()) for _ in range(N)]  
 
-        # Initialize the two photos with False (no stars initially)
-        first_photo = [[False for _ in range(N)] for _ in range(N)]
-        second_photo = [[False for _ in range(N)] for _ in range(N)]
+        first_photo = [[False] * N for _ in range(N)] 
+        second_photo = [[False] * N for _ in range(N)]
 
-        possible = True  # Start assuming it's possible to recreate the photo
+        possible = True  
 
         for i in range(N):
             for j in range(N):
                 if final_photo[i][j] == 'B':
+                    if first_photo[i][j] or second_photo[i][j]:
+                        possible = False
+                        break
+                    first_photo[i][j] = True
                     if i + B < N and j + A < N:
-                        first_photo[i][j] = True
                         second_photo[i + B][j + A] = True
                     else:
                         possible = False
                         break
+
                 elif final_photo[i][j] == 'G':
-                    found_star = False
-                    if i + B < N and j + A < N:
-                        if not first_photo[i][j] and not second_photo[i + B][j + A]:
-                            first_photo[i][j] = True
-                            second_photo[i + B][j + A] = True
-                            found_star = True
-                    if not found_star:
+                    placed = False
+                    if not first_photo[i][j]:
+                        first_photo[i][j] = True
+                        if i + B < N and j + A < N:
+                            second_photo[i + B][j + A] = False
+                        placed = True
+                    if not placed and not second_photo[i][j]:
+                        second_photo[i + B][j + A] = True
+                        placed = True
+
+                    if not placed:
                         possible = False
                         break
 
