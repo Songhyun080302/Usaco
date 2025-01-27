@@ -1,25 +1,53 @@
 def solve():
-    t = int(input())
+    t = int(input())  # Number of test cases
     for _ in range(t):
         N, A, B = map(int, input().split())
-        grid = [list(input()) for _ in range(N)]
+        final_photo = [input().strip() for _ in range(N)]
         
-        stars = 0
+        # Initialize the state of the first and second photos
+        first_photo = [[False] * N for _ in range(N)]
+        second_photo = [[False] * N for _ in range(N)]
+        
+        possible = True
+        
+        # Process the grid and check each cell
         for i in range(N):
             for j in range(N):
-                if grid[i][j] == 'B': 
-                    stars += 1
-                elif grid[i][j] == 'G':
-                    # Check if placing a star here is valid
-                    if i + B < N and j + A < N and grid[i + B][j + A] != 'B':
-                        stars += 1
+                if final_photo[i][j] == 'B':
+                    # If it's 'B', the star must be in both first and second photos
+                    if i + B < N and j + A < N:
+                        first_photo[i][j] = True
+                        second_photo[i + B][j + A] = True
                     else:
-                        # If no valid placement for 'G', it's impossible
-                        stars = -1
+                        possible = False
                         break
-            if stars == -1:
-                break
-        print(stars)
+                elif final_photo[i][j] == 'G':
+                    found_star = False
+                    # Try placing the star in the first photo
+                    if i + B < N and j + A < N:
+                        if not first_photo[i][j] and not second_photo[i + B][j + A]:
+                            first_photo[i][j] = True
+                            second_photo[i + B][j + A] = False
+                            found_star = True
+                    
+                    # Try placing the star in the second photo
+                    if not found_star:
+                        if i + B < N and j + A < N:
+                            if not first_photo[i][j] and not second_photo[i + B][j + A]:
+                                first_photo[i][j] = False
+                                second_photo[i + B][j + A] = True
+                                found_star = True
+                    
+                    # If we can't find a valid placement for the star, it's impossible
+                    if not found_star:
+                        possible = False
+                        break
+        
+        # If the configuration is not possible, output -1
+        if not possible:
+            print(-1)
+        else:
+            # Count the number of stars in the first photo
+            star_count = sum(sum(row) for row in first_photo)
+            print(star_count)
 
-if __name__ == "__main__":
-    solve()
